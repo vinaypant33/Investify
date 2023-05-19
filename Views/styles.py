@@ -1,6 +1,14 @@
 import styles
 import colors
 
+
+## Setting Fonts for the texts : 
+
+super_small_font  = ("Times", "18", "bold")
+
+
+
+
 from tkinter import *
 
 
@@ -8,8 +16,16 @@ from tkinter import *
 ## Dummy part whcih will be deleted later
 
 # root = Tk()
-# main = Button(root)
+# main = Entry(root)
+
+
+
+
+
 # root.mainloop()
+
+
+
 
 
 class login_page_design():
@@ -24,3 +40,6 @@ class login_page_design():
         button_name.configure(height=height , width=width , background=bg_color , foreground=fg_color , bd=0  , relief=SUNKEN,
                        activebackground=colors.black_color , activeforeground=colors.red_color)
     
+    def text_box_configure(self , master  , bg_color , fg_color):
+        master.configure( background=bg_color , foreground=fg_color  , font=super_small_font,
+               bd = 0  , justify = 'center')
