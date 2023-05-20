@@ -6,6 +6,12 @@ from PIL import Image ,  ImageTk
 import styles
 import colors
 
+
+## Importing custom tkinter for the rounded buttons : 
+import customtkinter as ctk
+
+
+
 class login_page():
 
     def __init__(self , width , height ) -> None:
@@ -60,7 +66,14 @@ class login_page():
         self.username_bottom_border = tk.Frame(self.login_page , height=2 , background=colors.white_color)
         self.password_text  = tk.Entry(self.login_page)
         self.password_bottom_border = tk.Frame(self.login_page , height=2 , background=colors.white_color)
-        self.login_button = tk.Button(self.login_page)
+        self.login_button  = tk.Button(self.login_page , text="Login")
+
+        
+
+
+
+
+
         ## Configuring the Controls : 
         self.login_page.configure(background=colors.black_color)
         self.titlebar.configure(styles.login_page_design.frame_styles(self , self.titlebar , 100 , 16 , colors.black_color))
@@ -69,7 +82,7 @@ class login_page():
         self.username_text.insert(0 , "Username")
         self.password_text.configure(styles.login_page_design.text_box_configure(self,  self.password_text , colors.black_color , colors.grey_color))
         self.password_text.insert(0 , "Password")
-
+        self.login_button.configure(styles.login_page_design.button_styles_close(self , self.login_button , 100 , 2 , colors.red_color , colors.white_color))
         ## Binding the controls  : 
         self.titlebar.bind("<ButtonPress-1>" , self.mouse_click)
         self.titlebar.bind("<B1-Motion>" , self.mouse_move)
@@ -84,6 +97,7 @@ class login_page():
         self.username_bottom_border.pack(side='top' , padx=(15,15) , pady=(0 , 10) , fill='x')
         self.password_text.pack(side='top' , pady=(10,0) , fill='x' , padx=(15,15))
         self.password_bottom_border.pack(side='top' , padx=(15,15) , pady=(0 , 10) , fill='x')
+        self.login_button.pack()
         # Main App  : 
         self.login_page.mainloop()
 

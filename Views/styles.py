@@ -43,3 +43,6 @@ class login_page_design():
     def text_box_configure(self , master  , bg_color , fg_color):
         master.configure( background=bg_color , foreground=fg_color  , font=super_small_font,
                bd = 0  , justify = 'center')
+    
+    def button_styles_login(self , master , bg_color , fg_color ):
+        pass
