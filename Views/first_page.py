@@ -139,6 +139,11 @@ class register_page():
         self.register_page.geometry(f'{self.width}x{self.height}+{self.x_location}+{self.y_location}')
         self.register_page.overrideredirect(True)
 
+        # Importing the image and setting the image 
+        fingerprint = Image.open(r'Assets\fingerprint.png')
+        fingerprint_1 = fingerprint.resize((60,60))
+        self.fingerprint2 = ImageTk.PhotoImage(fingerprint_1)
+
     # basic Functions for the Movement 
     def mouse_click(self, event ):
         self.x = event.x
@@ -150,17 +155,35 @@ class register_page():
         self.x_coordinate  = self.register_page.winfo_x() + self.deltax
         self.y_coordinate  = self.register_page.winfo_y() + self.deltay
         self.register_page.geometry(f'{self.width}x{self.height}+{self.x_coordinate}+{self.y_coordinate}')
-
-
+    
+    def close_app(self):
+        self.register_page.destroy()
     
     def defining_controls(self):
         # Upper Controls : Title bar and closing button
         self.titlebar  = tk.Frame(self.register_page , height=18)
-        self.close_button  = tk.Button(self.register_page)
+        self.close_button  = tk.Button(self.titlebar , text=" X " ,command=self.close_app)
+        self.finger_print  = tk.Label(self.register_page , image=self.fingerprint2)
+        self.usernme_text_1 = tk.Entry(self.register_page)
+        self.username_1_border  = tk.Frame(self.register_page)
+        self.password_text  = tk.Entry(self.register_page)
+        self.password_border  = tk.Frame(self.register_page)
+        self.password_text_2 = tk.Entry(self.register_page)
+        self.password_border_2 = tk.Frame(self.register_page)
+
+
 
         # configuring the Controls
         self.titlebar.configure(background=colors.black_color)
         self.register_page.configure(background=colors.black_color)
+        self.finger_print.configure(background=colors.black_color)
+        self.close_button.configure(styles.login_page_design.button_styles_close(self , self.close_button , 2 , 0, colors.red_color , colors.white_color , colors.black_color , colors.red_color))
+        self.usernme_text_1.configure(styles.login_page_design.text_box_configure(self , self.usernme_text_1 , colors.black_color  , colors.white_color ))
+        self.username_1_border.configure(height=2 , background=colors.white_color)
+        self.usernme_text_1.insert(0 , "Username")
+        self.password_text.configure(styles.login_page_design.text_box_configure(self , self.password_text , colors.black_color , colors.white_color))
+        self.password_text_2.configure(styles.login_page_design.text_box_configure(self, self.password_text_2 , colors.black_color , colors.white_color))
+        
         # Binding the controls 
         self.titlebar.bind("<ButtonPress-1>" , self.mouse_click)
         self.titlebar.bind("<B1-Motion>" , self.move_window)
@@ -168,6 +191,10 @@ class register_page():
     def placing_controls(self):
         ## Placing titlebar and closing button
         self.titlebar.pack(side='top' ,fill='x')
+        self.close_button.pack(side='right')
+        self.finger_print.pack(side='top' , pady=(10,50))
+        self.usernme_text_1.pack(side='top' , pady=(10,0) , padx=(15 ,15) , fill='x')
+        self.username_1_border.pack(side='top', pady=(0 ,0) , fill='x'  , padx=(15,15))
 
         ## Calling the Main register page 
         self.register_page.mainloop()
