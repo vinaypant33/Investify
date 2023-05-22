@@ -139,6 +139,18 @@ class register_page():
         self.register_page.geometry(f'{self.width}x{self.height}+{self.x_location}+{self.y_location}')
         self.register_page.overrideredirect(True)
 
+    # basic Functions for the Movement 
+    def mouse_click(self, event ):
+        self.x = event.x
+        self.y = event.y
+
+    def move_window(self , event):
+        self.deltax = event.x - self.x 
+        self.deltay = event.y - self.y
+        self.x_coordinate  = self.register_page.winfo_x() + self.deltax
+        self.y_coordinate  = self.register_page.winfo_y() + self.deltay
+        self.register_page.geometry(f'{self.width}x{self.height}+{self.x_coordinate}+{self.y_coordinate}')
+
 
     
     def defining_controls(self):
@@ -146,8 +158,16 @@ class register_page():
         self.titlebar  = tk.Frame(self.register_page , height=18)
         self.close_button  = tk.Button(self.register_page)
 
+        # configuring the Controls
+        self.titlebar.configure(background=colors.black_color)
+        self.register_page.configure(background=colors.black_color)
+        # Binding the controls 
+        self.titlebar.bind("<ButtonPress-1>" , self.mouse_click)
+        self.titlebar.bind("<B1-Motion>" , self.move_window)
+
     def placing_controls(self):
         ## Placing titlebar and closing button
+        self.titlebar.pack(side='top' ,fill='x')
 
         ## Calling the Main register page 
         self.register_page.mainloop()
