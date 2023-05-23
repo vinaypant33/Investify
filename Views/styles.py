@@ -9,23 +9,17 @@ small_font  = ('Times' , "10")
 small_font_bold = ("Times" , "10" , "bold")
 medium_font  = ("Times" , "12")
 medium_font_bold = ("Times" , "12" , "bold")
-large_font = ("Times" , "18")
-large_font_bold  = ("Times" , "18" , "bold")
+large_font = ("Times" , "16")
+large_font_bold  = ("Times" , "16" , "bold")
+
 
 
 from tkinter import *
-
-
 
 ## Dummy part whcih will be deleted later
 
 # root = Tk()
 # main = Entry(root)
-
-
-
-
-
 # root.mainloop()
 
 

@@ -1,12 +1,11 @@
 import tkinter as tk
 from tkinter import ttk
-from typing import Any
 import customtkinter as ctk
 from PIL import Image ,  ImageTk
 import styles
 import colors
 
-
+ 
 ## Importing custom tkinter for the rounded buttons : 
 import customtkinter as ctk
 
@@ -159,6 +158,18 @@ class register_page():
     def close_app(self):
         self.register_page.destroy()
     
+    def hoover_in(self, master , bg ):
+        master.configure(background=bg)
+    
+    def hoover_out(self, master ,  bg):
+        master.configure(background=bg)
+    
+    def text_box_selected(self, master ,  fg):
+        master.configure(foreground=fg)
+        master.delete(0 , 'end')
+        if master == self.password_text or master == self.password_text_2 :
+            master.configure(show ="*")
+    
     def defining_controls(self):
         # Upper Controls : Title bar and closing button
         self.titlebar  = tk.Frame(self.register_page , height=18)
@@ -170,8 +181,9 @@ class register_page():
         self.password_border  = tk.Frame(self.register_page)
         self.password_text_2 = tk.Entry(self.register_page)
         self.password_border_2 = tk.Frame(self.register_page)
-
-
+        self.register_button = tk.Button(self.register_page , text="Register")
+        self.login_text  = tk.Label(self.register_page , text="Already have an account !!")
+        self.login = tk.Label(self.register_page , text='Login')
 
         # configuring the Controls
         self.titlebar.configure(background=colors.black_color)
@@ -183,10 +195,23 @@ class register_page():
         self.usernme_text_1.insert(0 , "Username")
         self.password_text.configure(styles.login_page_design.text_box_configure(self , self.password_text , colors.black_color , colors.white_color))
         self.password_text_2.configure(styles.login_page_design.text_box_configure(self, self.password_text_2 , colors.black_color , colors.white_color))
-        
+        self.password_text.insert(0 , "Password")
+        self.password_text_2.insert(0 , "Repeat Password")
+        self.register_button.configure(styles.login_page_design.button_styles_close(self , self.register_button , 100 , 1 , colors.red_color , colors.white_color , colors.black_color , colors.red_color))
+        self.register_button.configure(font=styles.medium_font_bold)
+        self.login.configure(background=colors.black_color , foreground=colors.red_color)
+        self.login_text.configure(background=colors.black_color , foreground=colors.white_color)
+
         # Binding the controls 
         self.titlebar.bind("<ButtonPress-1>" , self.mouse_click)
         self.titlebar.bind("<B1-Motion>" , self.move_window)
+        self.register_button.bind("<Enter>" , lambda  event  : self.hoover_in(self.register_button , colors.hoovered_red))
+        self.register_button.bind("<Leave>" , lambda event  : self.hoover_out(self.register_button , colors.red_color))
+        self.usernme_text_1.bind("<FocusIn>" , lambda event  :  self.text_box_selected(self.usernme_text_1 , colors.white_color))
+        self.password_text.bind("<FocusIn>" , lambda event : self.text_box_selected(self.password_text , colors.white_color))
+        self.password_text_2.bind("<FocusIn>" , lambda event  : self.text_box_selected(self.password_text_2 , colors.white_color))
+        
+    
 
     def placing_controls(self):
         ## Placing titlebar and closing button
@@ -195,6 +220,13 @@ class register_page():
         self.finger_print.pack(side='top' , pady=(10,50))
         self.usernme_text_1.pack(side='top' , pady=(10,0) , padx=(15 ,15) , fill='x')
         self.username_1_border.pack(side='top', pady=(0 ,0) , fill='x'  , padx=(15,15))
+        self.password_text.pack(side='top' , pady=(10,0) , padx=(15,15) , fill='x')
+        self.password_border.pack(side='top' , pady=(0 , 10) , padx=(15,15) , fill='x')
+        self.password_text_2.pack(side='top' , pady=(0,0) , padx=(15,15) , fill='x')
+        self.password_border_2.pack(side='top' , pady=(0,10), padx=(15,15) , fill='x')
+        self.register_button.pack(side='top' , pady=(0,0),  padx=(15,15) , fill='x')
+        self.login_text.pack(side='left' , pady=(10,10) , padx=(15, 0))
+        self.login.pack(side='left' , padx=(0 , 15))
 
         ## Calling the Main register page 
         self.register_page.mainloop()
@@ -205,6 +237,6 @@ if __name__ =='__main__':
     # login = login_page(350 , 420)
     # login.defining_controls()
     # login.placing_controls()
-    register =register_page(350 , 420)
+    register =register_page(350 , 350)
     register.defining_controls()
     register_page.placing_controls(register)
