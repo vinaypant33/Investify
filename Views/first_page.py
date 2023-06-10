@@ -129,6 +129,7 @@ class login_page():
 
 class register_page():
 
+
     def __init__(self, width, height) -> None:
         self.register_page  = tk.Tk()
         self.height = height
