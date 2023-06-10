@@ -2,10 +2,12 @@ import tkinter as tk
 from tkinter import ttk
 import customtkinter as ctk
 from PIL import Image ,  ImageTk
-import styles
-import colors
+from pubsub import pub  
 
- 
+import colors
+import styles
+
+
 ## Importing custom tkinter for the rounded buttons : 
 import customtkinter as ctk
 
@@ -234,9 +236,9 @@ class register_page():
         
 
 if __name__ =='__main__':
-    # login = login_page(350 , 420)
-    # login.defining_controls()
-    # login.placing_controls()
-    register =register_page(350 , 350)
-    register.defining_controls()
-    register_page.placing_controls(register)
+    login = login_page(350 , 420)
+    login.defining_controls()
+    login.placing_controls()
+    # register =register_page(350 , 350)
+    # register.defining_controls()
+    # register_page.placing_controls(register)

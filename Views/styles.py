@@ -1,6 +1,3 @@
-import styles
-import colors
-
 
 ## Setting Fonts for the texts : 
 super_small_font  = ("Times" , "8")
@@ -14,6 +11,7 @@ large_font_bold  = ("Times" , "16" , "bold")
 
 
 
+
 from tkinter import *
 
 ## Dummy part whcih will be deleted later
@@ -21,9 +19,6 @@ from tkinter import *
 # root = Tk()
 # main = Entry(root)
 # root.mainloop()
-
-
-
 
 
 class login_page_design():
@@ -41,4 +36,13 @@ class login_page_design():
     def text_box_configure(self , master  , bg_color , fg_color):
         master.configure( background=bg_color , foreground=fg_color  , font = large_font_bold,
                bd = 0  , justify = 'center')
+        
+
+
+
+class Dashboard_design():
+
+    def __init__(self) -> None:
+        pass
+
     
