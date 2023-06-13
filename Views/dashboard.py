@@ -3,22 +3,18 @@ from tkinter import ttk
 import customtkinter as ctk
 from PIL import Image , ImageTk
 
-## importimg file to show the application in the taskbar : 
+# Importimg file to show the application in the taskbar : 
 from ctypes import windll
-
 
 # Importing Custom files  
 import colors
 import styles
-
 import ui_functions
-
-
 
 
 class Dashboard():
 
-    def __init__(self , width , height ) -> None:
+    def __init__(self , width , height) -> None:
         self.dashboard  = tk.Tk()
         self.width  = width 
         self.height  = height
@@ -32,9 +28,27 @@ class Dashboard():
         ## Variables for the app min max 
         self.zoomed  = False
         self.minimized  = False
+
+        # Importing image for the buttons and icons
         self.dashboard.wm_iconbitmap(r'Views\app_icon.ico')
+        home_icon  = Image.open(r'Assets\icons\home.png')
+        settings_icon  = Image.open(r'Assets\icons\settings.png')
+        history_icon = Image.open(r'Assets\icons\history.png')
+        betting_icon  = Image.open(r'Assets\icons\betting.png')
+        betting_resized   = betting_icon.resize((15,15))
+        home_resized  = home_icon.resize((15,15))
+        history_resized  = history_icon.resize((15,15))
+        settings_resized = settings_icon.resize((15,15))
+        self.home_icon  = ImageTk.PhotoImage(home_resized)
+        self.settings_icon  = ImageTk.PhotoImage(settings_resized) # using the unicode character for settings now will be replaced later.
+        self.history_icon  =ImageTk.PhotoImage(history_resized)
+        self.betting_icon  = ImageTk.PhotoImage(betting_resized)
 
-
+        ## Images for the User Icon : Default Icon 
+        image_icon  = Image.open(r'Assets\user_avatars\panda.png')
+        image_icon_resized  = image_icon.resize((50,50))
+        self.imgae_icon  = ImageTk.PhotoImage(image_icon_resized)
+        self.user_image_label = tk.Label(self.upper_frame , image=self.imgae_icon) # Will be used to show the dummy image for the user for now : Will be changed with the database later 
         
     # using this function for making the icon in the taskbar : 
     def set_appwindow(self ,root):
@@ -97,35 +111,57 @@ class Dashboard():
 
     ## UI Design part
     def defining_controls(self):
-        ## titlebar and close button 
+        ## Titlebar and close button 
         self.titlebar = tk.Frame(self.dashboard , height=15 , background=colors.black_color)
         self.close_button  = tk.Button(self.titlebar  , text='\u2716', command=self.close_app)
         self.max_button  = tk.Button(self.titlebar , text=u"\U0001F5D6" , command=self.max_app)
         self.min_button = tk.Button(self.titlebar , text='\u2014', command=self.min_app)
-        # Sidebar and Sidebar Controls 
         # Sidebar and open Close button
         self.sidebar_frame  = tk.Frame(self.dashboard , width=100 )
         self.sidebar_frame.pack_propagate(0)
-        self.open_close_button = tk.Button(self.sidebar_frame , text="\u00BB" , command=self.open_Close_sidebar)
-        # Controls inside sidebar 
+        
+        # Controls inside sidebar
         self.application_label  = tk.Label(self.sidebar_frame , text="Investify")
         self.sidebar_user_frame   =tk.Frame(self.sidebar_frame)
-        self.name_image  = ui_functions.name_image 
+        name_image  = Image.open(r'Assets\user_avatars\avataer_man.png')
+        name_resized = name_image.resize((50 , 50))
+        self.name_image  = ImageTk.PhotoImage(name_resized)
         self.user_image  = tk.Label(self.sidebar_user_frame , image=self.name_image)
         self.user_image_name  = tk.Label(self.sidebar_user_frame , text="Username")
-        ## making the Home button with sidebar panel type Image and text in the button : Will only be used for calling the specific function 
-        self.home_frame  = tk.Frame(self.sidebar_frame)
-        # opening Image and settig the imaeg to the frame 
-        home_image  = Image.open(r'Assets\user_avatars\avatar_dog.png')
-        home_resized  = home_image.resize((20,20))
-        self.home_image  = ImageTk.PhotoImage(home_resized)
-        self.home_button  = ttk.Button(self.home_frame , text="HOME" , image=self.home_image , compound='left')
+        ## Creating seperate Frames with the Images and Buttons inside the Sidebar Frame : Dashboard to history buttons etc.
+        self.dashboard_frame  = tk.Frame(self.sidebar_frame)
+        self.betting_frame  = tk.Frame(self.sidebar_frame)
+        self.history_frame  = tk.Frame(self.sidebar_frame)
+
+        self.home_icon_label  = tk.Label(self.dashboard_frame , image=self.home_icon)
+        self.betting_icon_label  = tk.Label(self.betting_frame , image=self.betting_icon)
+        self.history_icon_label  =tk.Label(self.history_frame ,image=self.history_icon)
+
+
+        self.dashboard_button  = tk.Button(self.dashboard_frame , text="Dashboard")
+        self.betting_button  = tk.Button(self.betting_frame , text="Betting")
+        self.history_button  = tk.Button(self.history_frame , text="History")
+
+
+        
+        # Open close button and settings button  : 
+        self.open_close_button = tk.Button(self.sidebar_frame , text="\u00BB" , command=self.open_Close_sidebar)
+        self.settings_button  = tk.Button(self.sidebar_frame , text="\u2699")
+
+
+        ## Upper frame where the user icon with the username and the arrow icon will be shown : 
+        self.upper_frame  = tk.Frame(self.dashboard)
+        self.upper_frame_shadow  = tk.Frame(self.dashboard)
+        self.upper_frame.pack_propagate(1)
+        
+        self.username_frame  = tk.Frame(self.upper_frame)
 
 
 
         # Configuring the controls : 
-        self.sidebar_frame.configure(background='red')
-        # self.home_button.configure(width=100)
+        self.sidebar_frame.configure(background='blue')
+        desired_height  = int(self.dashboard.winfo_height() * 0.05)
+        self.upper_frame.configure(background='red' ,height=desired_height)
 
         # Binding Controls 
         self.titlebar.bind("<ButtonPress-1>" , self.mouse_click)
@@ -143,15 +179,34 @@ class Dashboard():
 
         # Placing sidebar 
         self.sidebar_frame.pack(side='left' , fill='y')
-        self.open_close_button.pack(side='bottom' ,  anchor=tk.NE , padx=(2,2) , pady=(0,2))
 
         self.application_label.pack(side='top' , pady=(10,0))
         self.sidebar_user_frame.pack(side='top' , pady=(10,0))
         self.user_image.pack()
         self.user_image_name.pack(side='top' , pady=(10,0))
-        # Placing the buttons inside the sidebar : 
-        self.home_frame.pack(side='top' , pady=(50 , 0))
-        self.home_button.pack(side='left')
+        # Placing the Frames and the Buttons inside the sidebar :  
+        
+        self.dashboard_frame.pack(side='top' , pady=(10,0)) 
+        self.home_icon_label.pack(side='left')
+        self.dashboard_button.pack(side='right')
+
+        self.betting_frame.pack(side='top' , pady=(0,0))
+        self.betting_icon_label.pack(side='left')
+        self.betting_button.pack(side='right')
+
+        self.history_frame.pack(side='top')
+        self.history_icon_label.pack(side='left')
+        self.history_button.pack(side='right')
+
+       # Placing the upper control : 
+        self.upper_frame.pack(side='top' , fill='x')
+       # Settings and Open close button :
+        self.open_close_button.pack(side='bottom' ,  anchor=tk.SE , padx=(2,2) , pady=(0,2))
+        self.settings_button.pack(side='bottom' , anchor=tk.SE , padx=(2,2) , pady=(0 ,2))
+
+        
+ 
+        
         ## Calling the main app
         self.dashboard.mainloop()
 

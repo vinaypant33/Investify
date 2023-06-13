@@ -1,10 +1,39 @@
-from PIL import Image , ImageTk
-
-def sidebar_size_controls():
-    pass
+import tkinter as tk 
 
 
 
-name_image  = Image.open(r'Assets\user_avatars\avataer_man.png')
-name_resized = name_image.resize((50 , 50))
-name_image  = ImageTk.PhotoImage(name_resized)
+
+
+class custom_button(tk.Button):
+
+    def __init__(self , master , main_text  , function) -> None:
+        super().__init__(master)
+
+
+        # Frame for the button  : 
+        self.frame  = tk.Frame(master , height=200 , width=200 , background='red')
+        self.frame.pack_propagate(0)
+        self.cbtn  = tk.Button(self.frame, text=main_text , command=function)
+
+        self.frame.pack()
+        self.cbtn.pack()
+
+
+
+# root  = tk.Tk()
+
+
+# def hello_print():
+#     print("Hello world")
+
+# cbtn = custom_button(root , main_text="Hello World" , function=hello_print)
+
+
+# cbtn.configure(height=50 , width=50)
+# # cbtn.pack()
+
+
+# # hebtn  = custom_button(root , main_text="hehe haa holo" , function=hello_print)
+
+
+# root.mainloop()
