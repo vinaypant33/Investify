@@ -24,6 +24,7 @@ class Dashboard():
         self.y_location  = (self.current_height //2) - (self.height //2)
         self.dashboard.geometry(f'{self.width}x{self.height}+{self.x_location}+{self.y_location}')
         self.dashboard.overrideredirect(True)
+        self.sidebar_current_width  = 0
 
         ## Variables for the app min max 
         self.zoomed  = False
@@ -46,10 +47,13 @@ class Dashboard():
 
         ## Images for the User Icon : Default Icon 
         image_icon  = Image.open(r'Assets\user_avatars\panda.png')
-        image_icon_resized  = image_icon.resize((50,50))
-        self.imgae_icon  = ImageTk.PhotoImage(image_icon_resized)
-        self.user_image_label = tk.Label(self.upper_frame , image=self.imgae_icon) # Will be used to show the dummy image for the user for now : Will be changed with the database later 
-        
+        image_icon_resized_30  = image_icon.resize((30,30))
+        self.username_imgae_icon_30  = ImageTk.PhotoImage(image_icon_resized_30)
+        image_icon_resized_50 = image_icon.resize((50,50))
+        self.username_image_icon_50 = ImageTk.PhotoImage(image_icon_resized_50)
+       
+
+
     # using this function for making the icon in the taskbar : 
     def set_appwindow(self ,root):
         GWL_EXSTYLE=-20
@@ -98,12 +102,17 @@ class Dashboard():
         self.new_y = self.dashboard.winfo_y() + self.delta_y
         self.dashboard.geometry(f"{self.width}x{self.height}+{self.new_x}+{self.new_y}")
 
+
+    # Most important function for now : will have modify the same for now : 
     def open_Close_sidebar(self):
         if self.sidebar_frame.winfo_width() == 100:
             self.sidebar_frame.configure(width=230)
             self.open_close_button.configure(text="\u00AB")
+            self.sidebar_current_width = 230
+            
         else:
             self.sidebar_frame.configure(width=100)
+            self.sidebar_current_width = 100
             self.open_close_button.configure(text="\u00BB")
 
 
@@ -123,10 +132,8 @@ class Dashboard():
         # Controls inside sidebar
         self.application_label  = tk.Label(self.sidebar_frame , text="Investify")
         self.sidebar_user_frame   =tk.Frame(self.sidebar_frame)
-        name_image  = Image.open(r'Assets\user_avatars\avataer_man.png')
-        name_resized = name_image.resize((50 , 50))
-        self.name_image  = ImageTk.PhotoImage(name_resized)
-        self.user_image  = tk.Label(self.sidebar_user_frame , image=self.name_image)
+        
+        self.user_image  = tk.Label(self.sidebar_user_frame , image=self.username_image_icon_50)
         self.user_image_name  = tk.Label(self.sidebar_user_frame , text="Username")
         ## Creating seperate Frames with the Images and Buttons inside the Sidebar Frame : Dashboard to history buttons etc.
         self.dashboard_frame  = tk.Frame(self.sidebar_frame)
@@ -156,6 +163,20 @@ class Dashboard():
         
         self.username_frame  = tk.Frame(self.upper_frame)
 
+        self.user_image_label = tk.Label(self.username_frame , image=self.username_imgae_icon_30) # Will be used to show the dummy image for the user for now : Will be changed with the database later 
+        self.user_name_label = tk.Label(self.username_frame , text="Username")
+        self.down_button  =tk.Button(self.username_frame , text=u"\u25BC")
+
+
+
+        ## controls for the dashboard : They will be loaded in the default and then will be changed dynamically as the button works 
+
+        self.dashsboard_frame  =- tk.Frame(self.dashboard)
+        self.current_dashboard  = ui_functions.Dashboard_controls(self.dashboard , 1000 , 1000)
+        self.current_dashboard.configuring()
+        self.current_dashboard.packing()
+
+        # Will call the class here to the Dashboard Frame and then the frame will be called Based on the condition of the application.  
 
 
         # Configuring the controls : 
@@ -204,7 +225,12 @@ class Dashboard():
         self.open_close_button.pack(side='bottom' ,  anchor=tk.SE , padx=(2,2) , pady=(0,2))
         self.settings_button.pack(side='bottom' , anchor=tk.SE , padx=(2,2) , pady=(0 ,2))
 
-        
+        # Placing the upper Frame usernmae Imgae and username text :
+        self.username_frame.pack(side='right' , padx=(5,15))
+        self.down_button.pack(side='right' , padx=(5,5))
+        self.user_name_label.pack(side='right' , padx=(0 , 0))
+        self.user_image_label.pack(side='right' , padx=(0,0))
+
  
         
         ## Calling the main app
