@@ -51,7 +51,7 @@ class Dashboard():
         self.username_imgae_icon_30  = ImageTk.PhotoImage(image_icon_resized_30)
         image_icon_resized_50 = image_icon.resize((50,50))
         self.username_image_icon_50 = ImageTk.PhotoImage(image_icon_resized_50)
-       
+
 
 
     # using this function for making the icon in the taskbar : 
@@ -170,9 +170,21 @@ class Dashboard():
 
 
         ## controls for the dashboard : They will be loaded in the default and then will be changed dynamically as the button works 
+        # Frame in the dashboard with the color and under that frame the contents to be loaded : 
 
-        self.dashsboard_frame  =- tk.Frame(self.dashboard)
-        self.current_dashboard  = ui_functions.Dashboard_controls(self.dashboard , 1000 , 1000)
+        # getting the height of the form and the width of the form : 
+        self.app_height  = self.dashboard.winfo_height()
+        self.app_width  = self.dashboard.winfo_width()
+        
+        self.main_contents_frame  = tk.Frame(self.dashboard , background='green'  , height=self.app_height , width  = self.app_width)
+        self.main_contents_frame.pack_propagate(0)
+
+        # self.dummy_button  = tk.Button(self.main_contents_frame , text="Hello World")
+        # self.dummy_button.pack(side='left')
+
+
+        # self.dashsboard_frame  = tk.Frame(self.main_contents_frame)
+        self.current_dashboard  = ui_functions.Dashboard_controls(self.main_contents_frame , self.app_height, self.app_width)
         self.current_dashboard.configuring()
         self.current_dashboard.packing()
 
@@ -231,6 +243,8 @@ class Dashboard():
         self.user_name_label.pack(side='right' , padx=(0 , 0))
         self.user_image_label.pack(side='right' , padx=(0,0))
 
+
+        self.main_contents_frame.pack(side='right')
  
         
         ## Calling the main app
