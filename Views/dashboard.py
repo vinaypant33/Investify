@@ -115,6 +115,9 @@ class Dashboard():
             self.sidebar_current_width = 100
             self.open_close_button.configure(text="\u00BB")
 
+    def name(self):
+        print(self.app_height)
+        print(self.app_width)
 
     
 
@@ -133,7 +136,7 @@ class Dashboard():
         self.application_label  = tk.Label(self.sidebar_frame , text="Investify")
         self.sidebar_user_frame   =tk.Frame(self.sidebar_frame)
         
-        self.user_image  = tk.Label(self.sidebar_user_frame , image=self.username_image_icon_50)
+        self.user_image  = tk.Label(self.sidebar_user_frame , image=self.username_imgae_icon_30)
         self.user_image_name  = tk.Label(self.sidebar_user_frame , text="Username")
         ## Creating seperate Frames with the Images and Buttons inside the Sidebar Frame : Dashboard to history buttons etc.
         self.dashboard_frame  = tk.Frame(self.sidebar_frame)
@@ -153,7 +156,7 @@ class Dashboard():
         
         # Open close button and settings button  : 
         self.open_close_button = tk.Button(self.sidebar_frame , text="\u00BB" , command=self.open_Close_sidebar)
-        self.settings_button  = tk.Button(self.sidebar_frame , text="\u2699")
+        self.settings_button  = tk.Button(self.sidebar_frame , text="\u2699" ,command=self.name)
 
 
         ## Upper frame where the user icon with the username and the arrow icon will be shown : 
@@ -176,6 +179,8 @@ class Dashboard():
         self.app_height  = self.dashboard.winfo_height()
         self.app_width  = self.dashboard.winfo_width()
         
+      
+
         self.main_contents_frame  = tk.Frame(self.dashboard , background='green'  , height=self.app_height , width  = self.app_width)
         self.main_contents_frame.pack_propagate(0)
 
@@ -184,7 +189,9 @@ class Dashboard():
 
 
         # self.dashsboard_frame  = tk.Frame(self.main_contents_frame)
-        self.current_dashboard  = ui_functions.Dashboard_controls(self.main_contents_frame , self.app_height, self.app_width)
+        print(self.app_width)
+        print(self.app_height)
+        self.current_dashboard  = ui_functions.Dashboard_controls(self.main_contents_frame , self.app_width, self.app_height)
         self.current_dashboard.configuring()
         self.current_dashboard.packing()
 
@@ -244,7 +251,7 @@ class Dashboard():
         self.user_image_label.pack(side='right' , padx=(0,0))
 
 
-        self.main_contents_frame.pack(side='right')
+        self.main_contents_frame.pack(side='left' , padx=(0,0) , pady=(0,0))
  
         
         ## Calling the main app
