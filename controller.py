@@ -8,13 +8,14 @@ from pubsub import pub
 ## Importing the - Pre made files
 from Views import first_page
 from Views import styles
+from Views import dashboard
 
 
 
 
 
-
-
+def calling_dashboard():
+    pass
 
 
 

@@ -17,7 +17,7 @@ from tkinter import *
 ## Dummy part whcih will be deleted later
 
 # root = Tk()
-# main = Entry(root)
+# main = Entry(root).pack()
 # root.mainloop()
 
 
@@ -43,6 +43,9 @@ class login_page_design():
 class Dashboard_design():
 
     def __init__(self) -> None:
+        pass
+
+    def label_marking(self , master ):
         pass
 
     

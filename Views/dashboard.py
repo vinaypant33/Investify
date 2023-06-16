@@ -75,10 +75,16 @@ class Dashboard():
             self.dashboard.state('zoomed')
             self.zoomed = True
             self.max_button.configure(text=u"\U0001F5D7")
+            self.main_contents_frame.destroy()
+            self.reducing_width = 100
+            self.calling_dashboard(self.reducing_width)
         else:
             self.zoomed = False
             self.dashboard.state('normal')
+            self.main_contents_frame.destroy()
             self.max_button.configure(text=u"\U0001F5D6")
+            self.reducing_width = 100
+            self.calling_dashboard(self.reducing_width)
 
     def min_app(self):
         self.dashboard.overrideredirect(False)
@@ -105,21 +111,40 @@ class Dashboard():
 
     # Most important function for now : will have modify the same for now : 
     def open_Close_sidebar(self):
+        
         if self.sidebar_frame.winfo_width() == 100:
             self.sidebar_frame.configure(width=230)
+            self.reducing_width  = 230
             self.open_close_button.configure(text="\u00AB")
             self.sidebar_current_width = 230
+            self.main_contents_frame.destroy()
+            self.calling_dashboard(230)
             
         else:
             self.sidebar_frame.configure(width=100)
             self.sidebar_current_width = 100
             self.open_close_button.configure(text="\u00BB")
+            self.main_contents_frame.destroy()
+            self.reducing_width  = 100
+            self.calling_dashboard(100)
+
 
     def name(self):
         print(self.app_height)
         print(self.app_width)
 
     
+    def calling_dashboard(self , reducing_height):
+        # getting the height of the form and the width of the form : 
+        self.app_height  = self.dashboard.winfo_height()
+        self.app_width  = self.dashboard.winfo_width()
+        self.main_contents_frame  = tk.Frame(self.dashboard , background='green'  , height=self.app_height , width  = self.app_width)
+        self.main_contents_frame.pack_propagate(0)
+        self.current_dashboard  = ui_functions.Dashboard_controls(self.main_contents_frame , self.app_width, self.app_height , width_to_reduce=reducing_height)
+        self.current_dashboard.configuring()
+        self.current_dashboard.packing()
+
+        self.main_contents_frame.pack(side='left' , padx=(0,0) , pady=(0,0))
 
     ## UI Design part
     def defining_controls(self):
@@ -174,26 +199,19 @@ class Dashboard():
 
         ## controls for the dashboard : They will be loaded in the default and then will be changed dynamically as the button works 
         # Frame in the dashboard with the color and under that frame the contents to be loaded : 
-
         # getting the height of the form and the width of the form : 
         self.app_height  = self.dashboard.winfo_height()
         self.app_width  = self.dashboard.winfo_width()
-        
-      
-
         self.main_contents_frame  = tk.Frame(self.dashboard , background='green'  , height=self.app_height , width  = self.app_width)
         self.main_contents_frame.pack_propagate(0)
-
-        # self.dummy_button  = tk.Button(self.main_contents_frame , text="Hello World")
-        # self.dummy_button.pack(side='left')
-
-
-        # self.dashsboard_frame  = tk.Frame(self.main_contents_frame)
-        print(self.app_width)
-        print(self.app_height)
         self.current_dashboard  = ui_functions.Dashboard_controls(self.main_contents_frame , self.app_width, self.app_height)
         self.current_dashboard.configuring()
         self.current_dashboard.packing()
+  
+        
+      
+
+       
 
         # Will call the class here to the Dashboard Frame and then the frame will be called Based on the condition of the application.  
 
