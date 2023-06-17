@@ -114,51 +114,71 @@
 
 
 
-from tkinter import ttk  
-import tkinter as tk 
+# from tkinter import ttk  
+# import tkinter as tk 
+# from PIL import Image , ImageTk
+
+
+# class frame_buton(tk.Button):
+
+#     def __init__(self , master,  image_link , function , height = 3 , width  = 100) -> None:
+#         self.frame  = tk.Frame(master)
+#         self.image  = ImageTk.PhotoImage(image=image_link)
+#         self.image_label  = tk.Label(image=self.image)
+#         self.frame_2 = tk.Frame(self.frame)
+#         self.button  = ttk.Button(self.frame_2 , text="I am a Button" ,command=function)
+
+#         self.frame.configure(background='black' , height=height  , width=width)
+#         self.frame_2.configure(background='red' , height=height , width=width)
+#         self.frame.pack_propagate(1)
+#         self.frame_2.pack_propagate(1)
+
+
+#         self.frame.pack()
+#         self.frame_2.pack(side='left')
+#         self.image_label.pack(side='right')
+#         self.button.pack(side='left')
+#         super().__init__(master = master)
+
+
+# root = tk.Tk()
+
+
+# def print_name():
+#     print("Name")
+
 from PIL import Image , ImageTk
 
-
-class frame_buton(tk.Button):
-
-    def __init__(self , master,  image_link , function , height = 3 , width  = 100) -> None:
-        self.frame  = tk.Frame(master)
-        self.image  = ImageTk.PhotoImage(image=image_link)
-        self.image_label  = tk.Label(image=self.image)
-        self.frame_2 = tk.Frame(self.frame)
-        self.button  = ttk.Button(self.frame_2 , text="I am a Button" ,command=function)
-
-        self.frame.configure(background='black' , height=height  , width=width)
-        self.frame_2.configure(background='red' , height=height , width=width)
-        self.frame.pack_propagate(1)
-        self.frame_2.pack_propagate(1)
-
-
-        self.frame.pack()
-        self.frame_2.pack(side='left')
-        self.image_label.pack(side='right')
-        self.button.pack(side='left')
-        super().__init__(master = master)
-
+from tkinter import ttk
+import tkinter as tk
+import customtkinter as ctk
 
 root = tk.Tk()
 
+image  = Image.open(r'Assets\icons\betting_white.png')
+image_1 = image.resize((30 , 30)  , Image.ANTIALIAS)
+image_2 = ImageTk.PhotoImage(image_1)
+# main = frame_buton(root , image_link=image , function=print_name , height=100 , width  =100)
 
-def print_name():
-    print("Name")
-
-
-image  = Image.open(r'Assets\user_avatars\panda.png')
-image  = image.resize((30 , 30))
-main = frame_buton(root , image_link=image , function=print_name , height=100 , width  =100)
+# root.mainloop()
 
 
 
 
 
+
+
+main_btn  = ttk.Button(root , text="Dashboard" , image=image_2 , width=100 , compound='left' , padding=(10, 0)).pack()
+
+main_btn_2  = ttk.Button(root , text="Betting" , image=image_2 , width=100 , compound='left' , padding=(10, 0)).pack()
+
+main_btn_3  = ttk.Button(root , text="Menu" , image=image_2 , width=100 , compound='left' , padding=(10, 0, 10, 0)).pack()
+
+
+main_btn_4 = ctk.CTkButton(root , text="Hello World" , image=image_2  , compound='left' , corner_radius=10000).pack()
+
+# main_btn_4.configure(corner_radius  = 100)
 
 
 
 root.mainloop()
-
-        

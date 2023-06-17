@@ -43,13 +43,30 @@ class Dashboard():
         betting_icon  = Image.open(r'Assets\icons\betting.png')
         betting_icon_red = Image.open(r'Assets\icons\betting_red.png')
         betting_resized   = betting_icon.resize((15,15))
-        home_resized  = home_icon.resize((15,15))
+        home_resized  = home_icon.resize((20,20))
         history_resized  = history_icon.resize((15,15))
         settings_resized = settings_icon.resize((15,15))
         self.home_icon  = ImageTk.PhotoImage(home_resized)
         self.settings_icon  = ImageTk.PhotoImage(settings_resized) # using the unicode character for settings now will be replaced later.
         self.history_icon  =ImageTk.PhotoImage(history_resized)
         self.betting_icon  = ImageTk.PhotoImage(betting_resized)
+
+
+        # Import the white images and resize them for the images : 
+        white_home  = Image.open(r'Assets\icons\home_white.png')
+        white_betting  = Image.open(r'Assets\icons\betting_white.png')
+        white_history  = Image.open(r'Assets\icons\history_white.png')
+
+        white_home_resized = white_home.resize((20,20))
+        white_betting_resized  = white_betting.resize((20,20))
+        white_history_resized  = white_history.resize((20,20))
+
+
+        self.white_home = ImageTk.PhotoImage(white_home_resized)
+        self.white_betting  = ImageTk.PhotoImage(white_betting_resized)
+        self.white_history  = ImageTk.PhotoImage(white_history_resized)
+
+
 
         home_resized_large  = home_icon_red.resize((25 , 25))
         history_resized_large  = history_icon_red.resize((25 , 25))
@@ -140,49 +157,47 @@ class Dashboard():
             self.sidebar_user_frame   =tk.Frame(self.sidebar_frame , background=colors.dark_color_grey)
             self.user_image  = tk.Label(self.sidebar_user_frame , image=self.username_image_icon_50 , background=colors.dark_color_grey)
             self.user_image_name  = tk.Label(self.sidebar_user_frame , text="Username" , background=colors.dark_color_grey , foreground=colors.white_color)
+            
             ## Creating seperate Frames with the Images and Buttons inside the Sidebar Frame : Dashboard to history buttons etc.
-            self.dashboard_frame  = tk.Frame(self.sidebar_frame)
-            self.betting_frame  = tk.Frame(self.sidebar_frame)
-            self.history_frame  = tk.Frame(self.sidebar_frame)
 
-            self.home_icon_label  = tk.Label(self.dashboard_frame , image=self.home_icon)
-            self.betting_icon_label  = tk.Label(self.betting_frame , image=self.betting_icon)
-            self.history_icon_label  =tk.Label(self.history_frame ,image=self.history_icon)
+            self.dashboard_frame  = tk.Frame(self.sidebar_frame , width=120 , height=30 , background=colors.light_grey_color)
+            self.dashboard_frame.pack_propagate(0)
+            self.betting_frame  = tk.Frame(self.sidebar_frame , width=120 , height=30 , background=colors.light_grey_color)
+            self.history_frame  = tk.Frame(self.sidebar_frame, width=120 , height=30 , background=colors.light_grey_color)
+            self.betting_frame.pack_propagate(0)
+            self.history_frame.pack_propagate(0)
 
-            self.dashboard_button  = tk.Button(self.dashboard_frame , text="Dashboard")
-            self.betting_button  = tk.Button(self.betting_frame , text="Betting")
-            self.history_button  = tk.Button(self.history_frame , text="History")
-
-            self.dashboard_frame  = tk.Frame(self.sidebar_frame)
-            self.betting_frame  = tk.Frame(self.sidebar_frame)
-            self.history_frame  = tk.Frame(self.sidebar_frame)
-
-            self.home_icon_label  = tk.Label(self.dashboard_frame , image=self.home_icon)
-            self.betting_icon_label  = tk.Label(self.betting_frame , image=self.betting_icon)
-            self.history_icon_label  =tk.Label(self.history_frame ,image=self.history_icon)
+            self.home_icon_label  = tk.Label(self.dashboard_frame , image=self.white_home , background=colors.light_grey_color)
+            self.betting_icon_label  = tk.Label(self.betting_frame , image=self.white_betting ,  background=colors.light_grey_color)
+            self.history_icon_label  =tk.Label(self.history_frame ,image=self.white_history ,  background=colors.light_grey_color)
 
 
             self.dashboard_button  = tk.Button(self.dashboard_frame , text="Dashboard")
             self.betting_button  = tk.Button(self.betting_frame , text="Betting")
             self.history_button  = tk.Button(self.history_frame , text="History")
+
+            self.dashboard_button.configure(styles.login_page_design.button_styles_close(self , self.dashboard_button ,130 , None  , colors.light_grey_color , colors.white_color , colors.grey_color_2 , colors.red_color))
+            self.betting_button.configure(styles.login_page_design.button_styles_close(self , self.betting_button ,130 , None  , colors.light_grey_color , colors.white_color , colors.grey_color_2 , colors.red_color))
+            self.history_button.configure(styles.login_page_design.button_styles_close(self , self.history_button ,130 , None  , colors.light_grey_color , colors.white_color , colors.grey_color_2 , colors.red_color))
+
+
             # Packing the controls : 
-
             self.sidebar_user_frame.pack(side='top' , pady=(10,0))
             self.user_image.pack()
             self.user_image_name.pack(side='top' , pady=(10,0))
             # Placing the Frames and the Buttons inside the sidebar :  
     
-            self.dashboard_frame.pack(side='top' , pady=(10,0)) 
-            self.home_icon_label.pack(side='left')
-            self.dashboard_button.pack(side='right')
+            self.dashboard_frame.pack(side='top' , pady=(20,0)) 
+            self.home_icon_label.pack(side='left' , padx=(3,3))
+            self.dashboard_button.pack(side='right' , padx=(3,3))
 
             self.betting_frame.pack(side='top' , pady=(0,0))
-            self.betting_icon_label.pack(side='left')
-            self.betting_button.pack(side='right')
+            self.betting_icon_label.pack(side='left' , padx=(3,3))
+            self.betting_button.pack(side='right' , padx=(3,3))
 
             self.history_frame.pack(side='top')
-            self.history_icon_label.pack(side='left')
-            self.history_button.pack(side='right')
+            self.history_icon_label.pack(side='left' , padx=(3,3))
+            self.history_button.pack(side='right' , padx=(3,3))
 
             
         else:
@@ -256,7 +271,7 @@ class Dashboard():
         # Controls inside sidebar
         # Open close button and settings button  : 
         self.open_close_button = tk.Button(self.sidebar_frame , text="\u00BB" , command=self.open_Close_sidebar)
-        self.settings_button  = tk.Button(self.sidebar_frame , text="\u2699" ,command=self.name)
+        self.settings_button  = tk.Button(self.sidebar_frame , text="\u2699" , font=fonts.small_font_bold)
         ## Upper frame where the user icon with the username and the arrow icon will be shown : 
         self.upper_frame  = tk.Frame(self.dashboard )
         self.upper_frame_shadow  = tk.Frame(self.dashboard)
