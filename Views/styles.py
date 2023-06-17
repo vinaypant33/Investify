@@ -12,12 +12,14 @@ large_font_bold  = ("Times" , "16" , "bold")
 
 
 
-from tkinter import *
+import tkinter as tk
 
-## Dummy part whcih will be deleted later
+# Dummy part whcih will be deleted later
 
-# root = Tk()
-# main = Entry(root).pack()
+# root = tk.Tk()
+# main = tk.Entry(root).pack()
+
+# hehe  = tk.Button(root)
 # root.mainloop()
 
 
@@ -30,7 +32,7 @@ class login_page_design():
         frame_name.configure(width=width , height=height , background=bg_color)
     
     def button_styles_close(self,  button_name , width  , height , bg_color,  fg_color , active_bg , active_fg):
-        button_name.configure(height=height , width=width , background=bg_color , foreground=fg_color , bd=0  , relief=SUNKEN,
+        button_name.configure(height=height , width=width , background=bg_color , foreground=fg_color , bd=0  , relief=tk.SUNKEN,
                        activebackground=active_bg , activeforeground=active_fg)
     
     def text_box_configure(self , master  , bg_color , fg_color):
@@ -47,5 +49,12 @@ class Dashboard_design():
 
     def label_marking(self , master ):
         pass
+
+    def button_style(self , master):
+        # hehe.configure(bd = 0 , )
+        pass
+    
+    def Button_hover_enter(self,  master , bg_color):
+        hehe.configure(background=bg_color)
 
     

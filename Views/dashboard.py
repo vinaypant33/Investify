@@ -10,12 +10,14 @@ from ctypes import windll
 import colors
 import styles
 import ui_functions
+import fonts
 
 
 class Dashboard():
 
     def __init__(self , width , height) -> None:
         self.dashboard  = tk.Tk()
+        self.dashboard.configure(background=colors.white_color)
         self.width  = width 
         self.height  = height
         self.current_width  = self.dashboard.winfo_screenwidth()
@@ -33,9 +35,13 @@ class Dashboard():
         # Importing image for the buttons and icons
         self.dashboard.wm_iconbitmap(r'Views\app_icon.ico')
         home_icon  = Image.open(r'Assets\icons\home.png')
+        home_icon_red  = Image.open(r'Assets\icons\home_red.png')
         settings_icon  = Image.open(r'Assets\icons\settings.png')
+        settings_icon_red = Image.open(r'Assets\icons\settings_red.png')
         history_icon = Image.open(r'Assets\icons\history.png')
+        history_icon_red  = Image.open(r'Assets\icons\history_red.png')
         betting_icon  = Image.open(r'Assets\icons\betting.png')
+        betting_icon_red = Image.open(r'Assets\icons\betting_red.png')
         betting_resized   = betting_icon.resize((15,15))
         home_resized  = home_icon.resize((15,15))
         history_resized  = history_icon.resize((15,15))
@@ -45,14 +51,19 @@ class Dashboard():
         self.history_icon  =ImageTk.PhotoImage(history_resized)
         self.betting_icon  = ImageTk.PhotoImage(betting_resized)
 
+        home_resized_large  = home_icon_red.resize((25 , 25))
+        history_resized_large  = history_icon_red.resize((25 , 25))
+        betting_resized_large  = betting_icon_red.resize((25 , 25))
+        self.home_icon_large = ImageTk.PhotoImage(home_resized_large)
+        self.betting_icon_large  = ImageTk.PhotoImage(betting_resized_large)
+        self.history_icon_large  = ImageTk.PhotoImage(history_resized_large)
+       
         ## Images for the User Icon : Default Icon 
         image_icon  = Image.open(r'Assets\user_avatars\panda.png')
         image_icon_resized_30  = image_icon.resize((30,30))
         self.username_imgae_icon_30  = ImageTk.PhotoImage(image_icon_resized_30)
         image_icon_resized_50 = image_icon.resize((50,50))
         self.username_image_icon_50 = ImageTk.PhotoImage(image_icon_resized_50)
-
-
 
     # using this function for making the icon in the taskbar : 
     def set_appwindow(self ,root):
@@ -91,7 +102,6 @@ class Dashboard():
         self.dashboard.wm_iconify()
         self.dashboard.bind('<FocusIn>' , self.on_deiconify)
         
-
     def on_deiconify(self, event):
         if self.dashboard.wm_state() =='normal' and self.dashboard.overrideredirect() != True:
             self.dashboard.overrideredirect(True)
@@ -112,22 +122,108 @@ class Dashboard():
     # Most important function for now : will have modify the same for now : 
     def open_Close_sidebar(self):
         
-        if self.sidebar_frame.winfo_width() == 100:
-            self.sidebar_frame.configure(width=230)
-            self.reducing_width  = 230
+        if self.sidebar_frame.winfo_width() == 60:
+            self.sidebar_frame.configure(width=120 , background=colors.dark_color_grey)
+            self.reducing_width  = 120
             self.open_close_button.configure(text="\u00AB")
-            self.sidebar_current_width = 230
+            self.sidebar_current_width = 120
             self.main_contents_frame.destroy()
-            self.calling_dashboard(230)
+            self.calling_dashboard(120)
+
+            # Destroying the controls from sidebar large : 
+            self.side_home_button.destroy()
+            self.side_history_button.destroy()
+            self.side_betting_button.destroy()
+
+            self.sidebar_user_frame.destroy()
+            # Calling the buttons and otehr controls here : 
+            self.sidebar_user_frame   =tk.Frame(self.sidebar_frame , background=colors.dark_color_grey)
+            self.user_image  = tk.Label(self.sidebar_user_frame , image=self.username_image_icon_50 , background=colors.dark_color_grey)
+            self.user_image_name  = tk.Label(self.sidebar_user_frame , text="Username" , background=colors.dark_color_grey , foreground=colors.white_color)
+            ## Creating seperate Frames with the Images and Buttons inside the Sidebar Frame : Dashboard to history buttons etc.
+            self.dashboard_frame  = tk.Frame(self.sidebar_frame)
+            self.betting_frame  = tk.Frame(self.sidebar_frame)
+            self.history_frame  = tk.Frame(self.sidebar_frame)
+
+            self.home_icon_label  = tk.Label(self.dashboard_frame , image=self.home_icon)
+            self.betting_icon_label  = tk.Label(self.betting_frame , image=self.betting_icon)
+            self.history_icon_label  =tk.Label(self.history_frame ,image=self.history_icon)
+
+            self.dashboard_button  = tk.Button(self.dashboard_frame , text="Dashboard")
+            self.betting_button  = tk.Button(self.betting_frame , text="Betting")
+            self.history_button  = tk.Button(self.history_frame , text="History")
+
+            self.dashboard_frame  = tk.Frame(self.sidebar_frame)
+            self.betting_frame  = tk.Frame(self.sidebar_frame)
+            self.history_frame  = tk.Frame(self.sidebar_frame)
+
+            self.home_icon_label  = tk.Label(self.dashboard_frame , image=self.home_icon)
+            self.betting_icon_label  = tk.Label(self.betting_frame , image=self.betting_icon)
+            self.history_icon_label  =tk.Label(self.history_frame ,image=self.history_icon)
+
+
+            self.dashboard_button  = tk.Button(self.dashboard_frame , text="Dashboard")
+            self.betting_button  = tk.Button(self.betting_frame , text="Betting")
+            self.history_button  = tk.Button(self.history_frame , text="History")
+            # Packing the controls : 
+
+            self.sidebar_user_frame.pack(side='top' , pady=(10,0))
+            self.user_image.pack()
+            self.user_image_name.pack(side='top' , pady=(10,0))
+            # Placing the Frames and the Buttons inside the sidebar :  
+    
+            self.dashboard_frame.pack(side='top' , pady=(10,0)) 
+            self.home_icon_label.pack(side='left')
+            self.dashboard_button.pack(side='right')
+
+            self.betting_frame.pack(side='top' , pady=(0,0))
+            self.betting_icon_label.pack(side='left')
+            self.betting_button.pack(side='right')
+
+            self.history_frame.pack(side='top')
+            self.history_icon_label.pack(side='left')
+            self.history_button.pack(side='right')
+
             
         else:
-            self.sidebar_frame.configure(width=100)
-            self.sidebar_current_width = 100
+            self.sidebar_frame.configure(width=60 , background=colors.dark_color_grey)
+            self.sidebar_current_width = 60
             self.open_close_button.configure(text="\u00BB")
             self.main_contents_frame.destroy()
-            self.reducing_width  = 100
-            self.calling_dashboard(100)
+            self.reducing_width  = 60
+            self.calling_dashboard(60)
 
+            self.dashboard_frame.destroy()
+            self.history_frame.destroy()
+            self.betting_frame.destroy()
+            self.sidebar_user_frame.destroy()
+
+            self.sidebar_user_frame   =tk.Frame(self.sidebar_frame , background=colors.dark_color_grey)
+            self.user_image  = tk.Label(self.sidebar_user_frame , image=self.username_image_icon_50 , background=colors.dark_color_grey)
+
+            self.sidebar_user_frame.pack(side='top' , pady=(10,0))
+            self.user_image.pack()
+
+            self.side_home_button = tk.Button(self.sidebar_frame , image=self.home_icon_large)
+            self.side_betting_button  = tk.Button(self.sidebar_frame , image=self.betting_icon_large )
+            self.side_history_button  = tk.Button(self.sidebar_frame , image=self.history_icon_large)
+            self.side_home_button.configure(styles.login_page_design.button_styles_close(self , self.side_home_button , 50 , 50 , colors.dark_color_grey , None , colors.grey_color_2 , None))
+            self.side_betting_button.configure(styles.login_page_design.button_styles_close(self , self.side_betting_button , 50 , 50 , colors.dark_color_grey , None , colors.grey_color_2 , None))
+            self.side_history_button.configure(styles.login_page_design.button_styles_close(self , self.side_history_button , 50 , 50 , colors.dark_color_grey , None , colors.grey_color_2 , None))
+
+            self.side_home_button.bind("<Enter>" , lambda event : self.side_home_button.configure(background=colors.light_grey_color))
+            self.side_home_button.bind("<Leave>" , lambda event  : self.side_home_button.configure(background=colors.dark_color_grey ))
+
+            self.side_betting_button.bind("<Enter>" , lambda event : self.side_betting_button.configure(background=colors.light_grey_color ))
+            self.side_betting_button.bind("<Leave>" , lambda event  : self.side_betting_button.configure(background=colors.dark_color_grey))
+
+            self.side_history_button.bind("<Enter>" , lambda event : self.side_history_button.configure(background=colors.light_grey_color))
+            self.side_history_button.bind("<Leave>" , lambda event  : self.side_history_button.configure(background=colors.dark_color_grey ))
+
+            self.side_home_button.pack(side='top' , pady=(20 , 0))
+            self.side_betting_button.pack(side='top' , pady=(0 , 0))
+            self.side_history_button.pack(side='top' , pady=(0 , 0))
+        
 
     def name(self):
         print(self.app_height)
@@ -145,58 +241,30 @@ class Dashboard():
         self.current_dashboard.packing()
 
         self.main_contents_frame.pack(side='left' , padx=(0,0) , pady=(0,0))
+        
 
     ## UI Design part
     def defining_controls(self):
         ## Titlebar and close button 
-        self.titlebar = tk.Frame(self.dashboard , height=15 , background=colors.black_color)
+        self.titlebar = tk.Frame(self.dashboard , height=15 , background=colors.dark_color_grey)
         self.close_button  = tk.Button(self.titlebar  , text='\u2716', command=self.close_app)
         self.max_button  = tk.Button(self.titlebar , text=u"\U0001F5D6" , command=self.max_app)
-        self.min_button = tk.Button(self.titlebar , text='\u2014', command=self.min_app)
+        self.min_button = tk.Button(self.titlebar , text=u'\u2014', command=self.min_app)
         # Sidebar and open Close button
-        self.sidebar_frame  = tk.Frame(self.dashboard , width=100 )
+        self.sidebar_frame  = tk.Frame(self.dashboard , width=60 , background=colors.dark_color_grey)
         self.sidebar_frame.pack_propagate(0)
-        
         # Controls inside sidebar
-        self.application_label  = tk.Label(self.sidebar_frame , text="Investify")
-        self.sidebar_user_frame   =tk.Frame(self.sidebar_frame)
-        
-        self.user_image  = tk.Label(self.sidebar_user_frame , image=self.username_imgae_icon_30)
-        self.user_image_name  = tk.Label(self.sidebar_user_frame , text="Username")
-        ## Creating seperate Frames with the Images and Buttons inside the Sidebar Frame : Dashboard to history buttons etc.
-        self.dashboard_frame  = tk.Frame(self.sidebar_frame)
-        self.betting_frame  = tk.Frame(self.sidebar_frame)
-        self.history_frame  = tk.Frame(self.sidebar_frame)
-
-        self.home_icon_label  = tk.Label(self.dashboard_frame , image=self.home_icon)
-        self.betting_icon_label  = tk.Label(self.betting_frame , image=self.betting_icon)
-        self.history_icon_label  =tk.Label(self.history_frame ,image=self.history_icon)
-
-
-        self.dashboard_button  = tk.Button(self.dashboard_frame , text="Dashboard")
-        self.betting_button  = tk.Button(self.betting_frame , text="Betting")
-        self.history_button  = tk.Button(self.history_frame , text="History")
-
-
-        
         # Open close button and settings button  : 
         self.open_close_button = tk.Button(self.sidebar_frame , text="\u00BB" , command=self.open_Close_sidebar)
         self.settings_button  = tk.Button(self.sidebar_frame , text="\u2699" ,command=self.name)
-
-
         ## Upper frame where the user icon with the username and the arrow icon will be shown : 
-        self.upper_frame  = tk.Frame(self.dashboard)
+        self.upper_frame  = tk.Frame(self.dashboard )
         self.upper_frame_shadow  = tk.Frame(self.dashboard)
         self.upper_frame.pack_propagate(1)
-        
-        self.username_frame  = tk.Frame(self.upper_frame)
-
-        self.user_image_label = tk.Label(self.username_frame , image=self.username_imgae_icon_30) # Will be used to show the dummy image for the user for now : Will be changed with the database later 
-        self.user_name_label = tk.Label(self.username_frame , text="Username")
+        self.username_frame  = tk.Frame(self.upper_frame , background=colors.light_grey_color)
+        self.user_image_label = tk.Label(self.username_frame , image=self.username_imgae_icon_30 , background=colors.light_grey_color) # Will be used to show the dummy image for the user for now : Will be changed with the database later 
+        self.user_name_label = tk.Label(self.username_frame , text="Username" , background=colors.light_grey_color ,foreground=colors.white_color)
         self.down_button  =tk.Button(self.username_frame , text=u"\u25BC")
-
-
-
         ## controls for the dashboard : They will be loaded in the default and then will be changed dynamically as the button works 
         # Frame in the dashboard with the color and under that frame the contents to be loaded : 
         # getting the height of the form and the width of the form : 
@@ -204,57 +272,67 @@ class Dashboard():
         self.app_width  = self.dashboard.winfo_width()
         self.main_contents_frame  = tk.Frame(self.dashboard , background='green'  , height=self.app_height , width  = self.app_width)
         self.main_contents_frame.pack_propagate(0)
-        self.current_dashboard  = ui_functions.Dashboard_controls(self.main_contents_frame , self.app_width, self.app_height)
+        self.current_dashboard  = ui_functions.Dashboard_controls(self.main_contents_frame , self.app_width, self.app_height )
         self.current_dashboard.configuring()
         self.current_dashboard.packing()
-  
-        
-      
-
-       
-
-        # Will call the class here to the Dashboard Frame and then the frame will be called Based on the condition of the application.  
-
-
+        self.sidebar_user_frame   =tk.Frame(self.sidebar_frame , background=colors.dark_color_grey)
+        self.user_image  = tk.Label(self.sidebar_user_frame , image=self.username_image_icon_50 , background=colors.dark_color_grey)
+        self.side_home_button = tk.Button(self.sidebar_frame , image=self.home_icon_large)
+        self.side_betting_button  = tk.Button(self.sidebar_frame , image=self.betting_icon_large )
+        self.side_history_button  = tk.Button(self.sidebar_frame , image=self.history_icon_large)
+    
         # Configuring the controls : 
-        self.sidebar_frame.configure(background='blue')
+        # The upper controls and Upper titleba : 
+        self.close_button.configure(styles.login_page_design.button_styles_close(self ,  self.close_button , 4, None , colors.dark_color_grey , colors.red_color , colors.red_color , colors.black_color))
+        self.max_button.configure(styles.login_page_design.button_styles_close(self ,  self.max_button , 4, None , colors.dark_color_grey , colors.red_color , colors.red_color , colors.black_color))
+        self.min_button.configure(styles.login_page_design.button_styles_close(self ,  self.min_button , 4, None , colors.dark_color_grey , colors.red_color , colors.red_color , colors.black_color))
         desired_height  = int(self.dashboard.winfo_height() * 0.05)
-        self.upper_frame.configure(background='red' ,height=desired_height)
-
+        self.upper_frame.configure(background=colors.light_grey_color  , height=desired_height)
+        self.down_button.configure(background=colors.light_grey_color , relief='flat' , foreground=colors.red_color , bd=0 , activebackground=colors.light_grey_color , activeforeground=colors.white_color)
+        self.settings_button.configure(styles.login_page_design.button_styles_close(self , self.settings_button , None , 1  , colors.dark_color_grey , colors.red_color, colors.dark_color_grey , colors.red_color))
+        self.open_close_button.configure(styles.login_page_design.button_styles_close(self , self.open_close_button , 2 , 1  , colors.dark_color_grey , colors.red_color, colors.dark_color_grey , colors.red_color))
+        self.side_home_button.configure(styles.login_page_design.button_styles_close(self , self.side_home_button , 50 , 50 , colors.dark_color_grey , None , colors.grey_color_2 , None))
+        self.side_betting_button.configure(styles.login_page_design.button_styles_close(self , self.side_betting_button , 50 , 50 , colors.dark_color_grey , None , colors.grey_color_2 , None))
+        self.side_history_button.configure(styles.login_page_design.button_styles_close(self , self.side_history_button , 50 , 50 , colors.dark_color_grey , None , colors.grey_color_2 , None))
+        
         # Binding Controls 
         self.titlebar.bind("<ButtonPress-1>" , self.mouse_click)
         self.titlebar.bind("<B1-Motion>" , self.mouse_move)
+        self.close_button.bind("<Enter>" , lambda event : self.close_button.configure(background=colors.grey_color_2))
+        self.close_button.bind("<Leave>" , lambda event  : self.close_button.configure(background=colors.dark_color_grey))
+        self.max_button.bind("<Enter>" , lambda event : self.max_button.configure(background=colors.grey_color_2))
+        self.max_button.bind("<Leave>" , lambda event  : self.max_button.configure(background=colors.dark_color_grey))
+        self.min_button.bind("<Enter>" , lambda event : self.min_button.configure(background=colors.grey_color_2))
+        self.min_button.bind("<Leave>" , lambda event  : self.min_button.configure(background=colors.dark_color_grey))
+        self.settings_button.bind("<Enter>" , lambda event : self.settings_button.configure(background=colors.light_grey_color , foreground=colors.white_color))
+        self.settings_button.bind("<Leave>" , lambda event  : self.settings_button.configure(background=colors.dark_color_grey , foreground=colors.red_color))
+        self.open_close_button.bind("<Enter>" , lambda event : self.open_close_button.configure(background=colors.light_grey_color , foreground=colors.white_color))
+        self.open_close_button.bind("<Leave>" , lambda event  : self.open_close_button.configure(background=colors.dark_color_grey , foreground=colors.red_color))
+        # Configure the buttons for sidebar : 
+        self.side_home_button.bind("<Enter>" , lambda event : self.side_home_button.configure(background=colors.light_grey_color))
+        self.side_home_button.bind("<Leave>" , lambda event  : self.side_home_button.configure(background=colors.dark_color_grey ))
+        self.side_betting_button.bind("<Enter>" , lambda event : self.side_betting_button.configure(background=colors.light_grey_color ))
+        self.side_betting_button.bind("<Leave>" , lambda event  : self.side_betting_button.configure(background=colors.dark_color_grey))
+        self.side_history_button.bind("<Enter>" , lambda event : self.side_history_button.configure(background=colors.light_grey_color))
+        self.side_history_button.bind("<Leave>" , lambda event  : self.side_history_button.configure(background=colors.dark_color_grey ))
 
 
     def placing_controls(self):
         # Placing the titlebar close min and max button
         self.titlebar.pack(side='top' , fill='x')
-        self.close_button.pack(side='right')
-        self.max_button.pack(side='right')
-        self.min_button.pack(side='right')
+        self.close_button.pack(side='right' , pady=(1,1))
+        self.max_button.pack(side='right' , pady=(1,1))
+        self.min_button.pack(side='right' , pady=(1,1))
         self.dashboard.after(10, lambda: self.set_appwindow(self.dashboard))
 
 
         # Placing sidebar 
         self.sidebar_frame.pack(side='left' , fill='y')
 
-        self.application_label.pack(side='top' , pady=(10,0))
         self.sidebar_user_frame.pack(side='top' , pady=(10,0))
         self.user_image.pack()
-        self.user_image_name.pack(side='top' , pady=(10,0))
-        # Placing the Frames and the Buttons inside the sidebar :  
+        # self.user_image_name.pack(side='top' , pady=(10,0))
         
-        self.dashboard_frame.pack(side='top' , pady=(10,0)) 
-        self.home_icon_label.pack(side='left')
-        self.dashboard_button.pack(side='right')
-
-        self.betting_frame.pack(side='top' , pady=(0,0))
-        self.betting_icon_label.pack(side='left')
-        self.betting_button.pack(side='right')
-
-        self.history_frame.pack(side='top')
-        self.history_icon_label.pack(side='left')
-        self.history_button.pack(side='right')
 
        # Placing the upper control : 
         self.upper_frame.pack(side='top' , fill='x')
@@ -268,9 +346,11 @@ class Dashboard():
         self.user_name_label.pack(side='right' , padx=(0 , 0))
         self.user_image_label.pack(side='right' , padx=(0,0))
 
-
         self.main_contents_frame.pack(side='left' , padx=(0,0) , pady=(0,0))
- 
+        
+        self.side_home_button.pack(side='top' , pady=(20 , 0))
+        self.side_betting_button.pack(side='top' , pady=(0 , 0))
+        self.side_history_button.pack(side='top' , pady=(0 , 0))
         
         ## Calling the main app
         self.dashboard.mainloop()

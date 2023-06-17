@@ -84,7 +84,7 @@ class Dashboard_controls():
 
 
 class child_form():
-    def __init__(self , width  = 100 ,  height  = 100) -> None:
+    def __init__(self , width  = 100 ,  height  = 60) -> None:
         self.child_form  = tk.Tk()
         self.width  = width
         self.height  = height
