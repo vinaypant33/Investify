@@ -249,7 +249,7 @@ class Dashboard():
         # getting the height of the form and the width of the form : 
         self.app_height  = self.dashboard.winfo_height()
         self.app_width  = self.dashboard.winfo_width()
-        self.main_contents_frame  = tk.Frame(self.dashboard , background='green'  , height=self.app_height , width  = self.app_width)
+        self.main_contents_frame  = tk.Frame(self.dashboard , background=colors.light_grey_color  , height=self.app_height , width  = self.app_width)
         self.main_contents_frame.pack_propagate(0)
         self.current_dashboard  = ui_functions.Dashboard_controls(self.main_contents_frame , self.app_width, self.app_height , width_to_reduce=reducing_height)
         self.current_dashboard.configuring()
@@ -270,7 +270,7 @@ class Dashboard():
         self.sidebar_frame.pack_propagate(0)
         # Controls inside sidebar
         # Open close button and settings button  : 
-        self.open_close_button = tk.Button(self.sidebar_frame , text="\u00BB" , command=self.open_Close_sidebar)
+        self.open_close_button = tk.Button(self.sidebar_frame , text="\u00BB" , command=self.open_Close_sidebar , font=fonts.small_font_bold)
         self.settings_button  = tk.Button(self.sidebar_frame , text="\u2699" , font=fonts.small_font_bold)
         ## Upper frame where the user icon with the username and the arrow icon will be shown : 
         self.upper_frame  = tk.Frame(self.dashboard )
@@ -285,7 +285,7 @@ class Dashboard():
         # getting the height of the form and the width of the form : 
         self.app_height  = self.dashboard.winfo_height()
         self.app_width  = self.dashboard.winfo_width()
-        self.main_contents_frame  = tk.Frame(self.dashboard , background='green'  , height=self.app_height , width  = self.app_width)
+        self.main_contents_frame  = tk.Frame(self.dashboard , background=colors.light_grey_color  , height=self.app_height , width  = self.app_width)
         self.main_contents_frame.pack_propagate(0)
         self.current_dashboard  = ui_functions.Dashboard_controls(self.main_contents_frame , self.app_width, self.app_height )
         self.current_dashboard.configuring()
@@ -376,6 +376,3 @@ if __name__ == '__main__':
     main_dashb = Dashboard(1000 ,700)
     main_dashb.defining_controls()
     main_dashb.placing_controls()
-
-
-

@@ -1,5 +1,10 @@
 import tkinter as tk 
+import colors
+import fonts
 
+# Importing Matplotlib for showing the graph: 
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import matplotlib.pyplot as plt
 
 
 class custom_button(tk.Button):
@@ -31,18 +36,18 @@ class Dashboard_controls():
         self.graph_frame  = tk.Frame(master_frame)
         self.graph_frame_shadow  = tk.Frame(master_frame)
 
-        self.current_bets_label  = tk.Label(self.current_balance_frame , text="Current Bets")
-        self.current_bets_value  = tk.Label(self.current_balance_frame , text="0")
-        self.total_bets_label  = tk.Label(self.total_bets_frame , text="Total Bets")
-        self.total_bets_value  = tk.Label(self.total_bets_frame , text="0")
-        self.profit_loss_label  = tk.Label(self.profit_loss_frame , text="Profit / Loss")
-        self.profit_loss_value  = tk.Label(self.profit_loss_frame , text="0")
+        self.current_bets_label  = tk.Label(self.current_balance_frame , text="Current Bets"  , background=colors.dark_color_grey , foreground=colors.white_color , font=fonts.medium_font_bold)
+        self.current_bets_value  = tk.Label(self.current_balance_frame , text="0" , background=colors.dark_color_grey , foreground=colors.white_color , font=fonts.medium_font_bold)
+        self.total_bets_label  = tk.Label(self.total_bets_frame , text="Total Bets"  , background=colors.dark_color_grey , foreground=colors.white_color , font=fonts.medium_font_bold)
+        self.total_bets_value  = tk.Label(self.total_bets_frame , text="0"  , background=colors.dark_color_grey , foreground=colors.white_color , font=fonts.medium_font_bold)
+        self.profit_loss_label  = tk.Label(self.profit_loss_frame , text="Profit / Loss" , background=colors.dark_color_grey , foreground=colors.white_color , font=fonts.medium_font_bold)
+        self.profit_loss_value  = tk.Label(self.profit_loss_frame , text="0" , background=colors.dark_color_grey , foreground=colors.white_color , font=fonts.medium_font_bold)
 
     def configuring(self):
-        self.current_balance_frame.configure(height=self.current_height*0.25 , width= (self.current_width - self.current_width * 0.04) / 3.20 , background='red')
-        self.total_bets_frame.configure(height=self.current_height * 0.25 , width= (self.current_width - self.current_width * 0.04) / 3.20 , background='blue')
-        self.profit_loss_frame.configure(height=self.current_height * 0.25 , width= (self.current_width - self.current_width * 0.04) / 3.20 , background='yellow')
-        self.graph_frame.configure(height = self.current_height * 0.60 , width= self.current_width * 0.95 , background='pink')
+        self.current_balance_frame.configure(height=self.current_height*0.25 , width= (self.current_width - self.current_width * 0.04) / 3.20 , background=colors.dark_color_grey)
+        self.total_bets_frame.configure(height=self.current_height * 0.25 , width= (self.current_width - self.current_width * 0.04) / 3.20 , background=colors.dark_color_grey)
+        self.profit_loss_frame.configure(height=self.current_height * 0.25 , width= (self.current_width - self.current_width * 0.04) / 3.20 , background=colors.dark_color_grey)
+        self.graph_frame.configure(height = self.current_height * 0.60 , width= self.current_width * 0.95 , background=colors.dark_color_grey)
 
         self.current_balance_frame.pack_propagate(0)
         self.total_bets_frame.pack_propagate(0)
@@ -73,6 +78,20 @@ class Dashboard_controls():
         self.profit_loss_value.place(relx = 0.5 , rely = 0.5  , anchor="center")
 
 
+        # Create a figure and axes for the graph
+        fig, ax = plt.subplots()
+
+        # Generate sample data
+        x = [1, 2, 3, 4, 5]
+        y = [2, 4, 6, 8, 10]
+
+        # Plot the data
+        ax.plot(x, y)
+
+        # Create a canvas to display the graph
+        canvas = FigureCanvasTkAgg(fig, master=self.graph_frame)
+        canvas.draw()
+        canvas.get_tk_widget().pack()
 
 
     def clean_slate(self):
@@ -100,11 +119,11 @@ class child_form():
 
 
 if __name__ == '__main__':
-    # root   = tk.Tk()
-    # root.geometry("1000x700")
-    # main = Dashboard_controls(root , 1000 , 700)
-    # main.configuring()
-    # main.packing()
-    # root.mainloop()
+    root   = tk.Tk()
+    root.geometry("1000x700")
+    main = Dashboard_controls(root , 1000 , 700)
+    main.configuring()
+    main.packing()
+    root.mainloop()
 
-    main_c = child_form()
+    # main_c = child_form()

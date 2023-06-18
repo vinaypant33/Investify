@@ -55,6 +55,6 @@ class Dashboard_design():
         pass
     
     def Button_hover_enter(self,  master , bg_color):
-        hehe.configure(background=bg_color)
+        master.configure(background=bg_color)
 
     
